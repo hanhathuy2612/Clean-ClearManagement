@@ -18,9 +18,7 @@ namespace Laundry_shop_manager.DAO
         }
         public DataProvider() { }
 
-        private string conStr = @"Data Source=.\SQLEXPRESS;Initial Catalog=SHOP_GIAC_UI;Integrated Security=True";
-
-
+        private string conStr = @"Data Source=.\SQLEXPRESS;Initial Catalog=ShopGiatUi;Integrated Security=True";
 
         public DataTable ExecuteQuery(string query, object[] parameter = null)
         {

@@ -1,7 +1,7 @@
-﻿CREATE DATABASE SHOP_GIAC_UI
+﻿CREATE DATABASE QuanLyGiatUi
 GO
 
-USE SHOP_GIAC_UI
+USE QuanLyGiatUi
 GO
 -- Staff(id, tên, sdt, chức vụ, địa chỉ)
 -- Client(mã, tên, sdt, địa chỉ)
@@ -10,13 +10,7 @@ GO
 -- Bill(id, Mã khách hàng, ngày nhập, Tổng tiền, mã nhân viên)
 -- BillDetails(id, mã hàng, đơn giá, số lượng, thành tiền)
 -- Account(id, username, password, mã nhân viên)
-DROP TABLE dbo.NHANVIEN
-DROP TABLE dbo.ACCOUNT
-DROP TABLE dbo.HOADON
-DROP TABLE dbo.CHITIETHD
-DROP TABLE dbo.DANHMUCHANG
-DROP TABLE dbo.HANGHOA
-DROP TABLE dbo.KHACHHANG
+
 
 CREATE TABLE NHANVIEN(
 	ID_NV INT IDENTITY(1,1) PRIMARY KEY,
@@ -76,9 +70,6 @@ CREATE TABLE HOADON(
 	FOREIGN KEY (ID_NV) REFERENCES dbo.NHANVIEN (ID_NV)
 )
 GO
-SELECT * FROM dbo.NHANVIEN
-insert into HOADON values(GETDATE(), null, 2, 2, 0, null,null,N'Chưa xong',N'Chưa thanh toán')
-
 
 CREATE TABLE CHITIETHD(
 	ID_CTHD INT IDENTITY(1,1) PRIMARY KEY,
@@ -92,8 +83,6 @@ CREATE TABLE CHITIETHD(
 )
 GO
 
-select * from CHITIETHD where ID_HD = 6
-select * from HOADON
 -- Insert
 
 insert into KHACHHANG values(N'Phạm Hồng Phước',1234567890,N'123 Lã Xuân Oai')
