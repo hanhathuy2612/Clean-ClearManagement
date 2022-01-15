@@ -57,9 +57,11 @@ namespace Laundry_shop_manager.DTO
             this.iD = (int)row["id_ac"];
             this.NhanVien.ID = (int)row["ID_NV"];
             this.NhanVien.TenNv = row["tennv"].ToString();
-            this.NhanVien.AnhDd = row["anhdd"].ToString();
+            if (!Convert.IsDBNull(row["anhdd"]))
+            {
+                this.NhanVien.AnhDd = (byte[])row["anhdd"];
+            }
             this.NhanVien.ChucVu = row["chuvu"].ToString();
-
         }
     }
 }

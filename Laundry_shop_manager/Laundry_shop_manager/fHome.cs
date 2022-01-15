@@ -32,9 +32,20 @@ namespace Laundry_shop_manager
         {
             /*id_nv = account.NhanVien.ID;*/
             InitializeComponent(/*account*/);
-            string path = Path.GetFullPath("image/" + account.NhanVien.AnhDd.ToString());
+            //string path = Path.GetFullPath("image/" + account.NhanVien.AnhDd.ToString());
             /*MessageBox.Show(path + account.NhanVien.AnhDd.ToString());*/
-            pbxAnhDD.Image = new Bitmap(path);
+            try
+            {
+                using (var ms = new MemoryStream(account.NhanVien.AnhDd))
+                {
+                    pbxAnhDD.Image = Image.FromStream(ms);
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
             lbUserName.Text = account.NhanVien.TenNv.ToString();
             lbChucVu.Text = account.NhanVien.ChucVu.ToString();
             PhanQuyen(account.NhanVien.ChucVu.ToString());
@@ -112,7 +123,7 @@ namespace Laundry_shop_manager
         private void ibtQuanlytaikhoan_Click(object sender, EventArgs e)
         {
             fQuanLyNhanVien1.BringToFront();
-
+            fQuanLyNhanVien1.refreshThongTin();
         }
 
         private void ibtThongke_Click(object sender, EventArgs e)

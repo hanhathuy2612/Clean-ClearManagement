@@ -12,16 +12,16 @@ namespace Laundry_shop_manager.DAO
     {
         private static NhanVienDAO instance;
 
-        internal static NhanVienDAO Instance 
+        internal static NhanVienDAO Instance
         {
-            get { if (instance == null) instance = new NhanVienDAO(); return instance; } 
-            private set => instance = value; 
+            get { if (instance == null) instance = new NhanVienDAO(); return instance; }
+            private set => instance = value;
         }
         public NhanVienDAO() { }
         public int GetTongNhanVien()
         {
             int tong = 0;
-            foreach(DataRow item in DataProvider.Instance.ExecuteQuery("SELECT * FROM NHANVIEN").Rows)
+            foreach (DataRow item in DataProvider.Instance.ExecuteQuery("SELECT * FROM NHANVIEN").Rows)
             {
                 tong++;
             }
@@ -39,9 +39,9 @@ namespace Laundry_shop_manager.DAO
         public int addNhanVien(NhanVien nv)
         {
             string query = "INSERT INTO dbo.NHANVIEN( TenNV, ChuVu, SDT,NgaySinh,DiaChi,AnhDD ) VALUES ( @tenNV , @chucvu , @std , @ngaysinh , @diachi , @anhDD )";
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { nv.TenNv, nv.ChucVu, nv.SDt, nv.NgaySinh.Value, nv.DiaChi, nv.AnhDd});
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { nv.TenNv, nv.ChucVu, nv.SDt, nv.NgaySinh.Value, nv.DiaChi, nv.AnhDd });
         }
-        public int updateNhanVien(NhanVien old_nv , NhanVien new_nv)
+        public int updateNhanVien(NhanVien old_nv, NhanVien new_nv)
         {
             string query = "UPDATE dbo.NHANVIEN SET TENNV= @tennv , CHUVU = @chucvu , SDT = @sdt , DIACHI = @diachi , ANHDD = @anhdd WHERE ID_NV = @id_nv";
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { new_nv.TenNv, new_nv.ChucVu, new_nv.SDt, new_nv.DiaChi, new_nv.AnhDd, old_nv.ID });
@@ -49,7 +49,7 @@ namespace Laundry_shop_manager.DAO
         public int deleteNhanVien(NhanVien nv)
         {
             string query = "DELETE INTO dbo.NHANVIEN WHERE id_nv = @id_nv";
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { nv.ID});
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { nv.ID });
         }
 
         public DataTable timNhanVienTheoTen(string ten)
@@ -68,6 +68,29 @@ namespace Laundry_shop_manager.DAO
         {
             string query = "SELECT * FROM NHANVIEN WHERE SDT like N'%" + SDT + "%' AND TENNV like N'%" + Ten + "%'";
             return DataProvider.Instance.ExecuteQuery(query);
+        }
+
+        public NhanVien getById(int id)
+        {
+            string query = "SELECT * FROM NHANVIEN WHERE ID_NV = @id ";
+            var data = DataProvider.Instance.ExecuteQuery(query, new object[] { id });
+
+            var nhanvien = new NhanVien()
+            {
+                ID = (int)data.Rows[0]["ID_NV"],
+                TenNv = data.Rows[0]["TenNV"].ToString(),
+                ChucVu = data.Rows[0]["ChuVu"].ToString(),
+                SDt = data.Rows[0]["SDT"].ToString(),
+                DiaChi = data.Rows[0]["DiaChi"].ToString(),
+                NgaySinh = Convert.ToDateTime(data.Rows[0]["NgaySinh"].ToString())
+            };
+
+            if (!Convert.IsDBNull(data.Rows[0]["anhdd"]))
+            {
+                nhanvien.AnhDd = (byte[])data.Rows[0]["anhdd"];
+            }
+
+            return nhanvien;
         }
     }
 }

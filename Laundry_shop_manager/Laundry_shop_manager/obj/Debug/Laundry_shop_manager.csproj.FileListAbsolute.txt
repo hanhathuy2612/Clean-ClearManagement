@@ -274,7 +274,6 @@ D:\CÁC MÔN TRÊN TRƯỜNG\Kỳ 7\Phân Tính thiết kế hướng đối tư
 D:\CÁC MÔN TRÊN TRƯỜNG\Kỳ 7\Phân Tính thiết kế hướng đối tượng\Clean-ClearManagement\Laundry_shop_manager\Laundry_shop_manager\bin\Debug\ru\Microsoft.ReportViewer.WinForms.resources.dll
 D:\CÁC MÔN TRÊN TRƯỜNG\Kỳ 7\Phân Tính thiết kế hướng đối tượng\Clean-ClearManagement\Laundry_shop_manager\Laundry_shop_manager\bin\Debug\zh-CHS\Microsoft.ReportViewer.WinForms.resources.dll
 D:\CÁC MÔN TRÊN TRƯỜNG\Kỳ 7\Phân Tính thiết kế hướng đối tượng\Clean-ClearManagement\Laundry_shop_manager\Laundry_shop_manager\bin\Debug\zh-CHT\Microsoft.ReportViewer.WinForms.resources.dll
-D:\CÁC MÔN TRÊN TRƯỜNG\Kỳ 7\Phân Tính thiết kế hướng đối tượng\Clean-ClearManagement\Laundry_shop_manager\Laundry_shop_manager\obj\Debug\Laundry_shop_manager.csproj.AssemblyReference.cache
 D:\CÁC MÔN TRÊN TRƯỜNG\Kỳ 7\Phân Tính thiết kế hướng đối tượng\Clean-ClearManagement\Laundry_shop_manager\Laundry_shop_manager\obj\Debug\Laundry_shop_manager.exe.config
 D:\CÁC MÔN TRÊN TRƯỜNG\Kỳ 7\Phân Tính thiết kế hướng đối tượng\Clean-ClearManagement\Laundry_shop_manager\Laundry_shop_manager\obj\Debug\Laundry_shop_manager.fDoimatkhauUsercontrol.resources
 D:\CÁC MÔN TRÊN TRƯỜNG\Kỳ 7\Phân Tính thiết kế hướng đối tượng\Clean-ClearManagement\Laundry_shop_manager\Laundry_shop_manager\obj\Debug\Laundry_shop_manager.fNhanhangUsercontrol.resources

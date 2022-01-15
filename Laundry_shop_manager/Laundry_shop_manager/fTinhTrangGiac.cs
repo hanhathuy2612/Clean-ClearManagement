@@ -28,7 +28,6 @@ namespace Laundry_shop_manager
         void LoadDataGrid()
         {
             dgvListHoaDon.DataSource = HoaDonDAO.Instance.getListHoaDonTinhTrangGiac();
-
         }
         void refreshThongTin()
         {

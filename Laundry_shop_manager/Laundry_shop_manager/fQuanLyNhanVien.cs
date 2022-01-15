@@ -11,6 +11,7 @@ using Laundry_shop_manager.DAO;
 using Laundry_shop_manager.DTO;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Drawing.Imaging;
 
 namespace Laundry_shop_manager
 {
@@ -45,7 +46,7 @@ namespace Laundry_shop_manager
             Regex regex = new Regex(@"^[-+]?[0-9]*\.?[0-9]+$");
             return regex.IsMatch(pText);
         }
-        void refreshThongTin()
+        public void refreshThongTin()
         {
             LoadDataGrid();
             txbIdNhanVien.Text = "";
@@ -61,27 +62,52 @@ namespace Laundry_shop_manager
             txbIdAccount.Text = "";
             txbPassWord.Text = "";
         }
+
+        bool CheckPhone(string phone)
+        {
+            if (!string.IsNullOrEmpty(phone))
+            {
+                int n;
+                bool isNumeric = int.TryParse(phone, out n);
+                if (isNumeric)
+                {
+                    if (phone.Length != 10 && phone.Length != 11)
+                        return false;
+                    else
+                        return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
         bool checkThongTin()
         {
+            bool isEmpty = false;
+
             if(txbHoVaTen.Text == "")
             {
                 txbHoVaTen.Focus();
-                return false;
+                isEmpty =  true;
             }
-            if (txbSDT.Text == "")
+            if (!CheckPhone(txbSDT.Text))
             {
                 txbSDT.Focus();
+                MessageBox.Show("Số điện thoại không hợp lệ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             if (txbDiaChi.Text == "")
             {
                 txbDiaChi.Focus();
-                return false;
+                isEmpty = true;
             }
             if (cbbChucVu.Text == "")
             {
                 cbbChucVu.Focus();
-                return false;
+                isEmpty = true;
             }
             if (txbUserName.Text == "")
             {
@@ -91,17 +117,25 @@ namespace Laundry_shop_manager
             if (txbPassWord.Text == "")
             {
                 txbPassWord.Focus();
-                return false;
+                isEmpty = true;
             }
-            if(lbPathAnhDD.Text == "Chưa có ảnh")
+            if(pictureBox1.Image == null)
             {
+                MessageBox.Show("Chưa có ảnh đại diện", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+            if (isEmpty)
+            {
+                MessageBox.Show("Thông tin không được trống", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             return true;
         }
         void LoadDataGrid()
         {
             dgvListNhanVien.DataSource = NhanVienDAO.Instance.getListNhanVien();
+            dgvListNhanVien.Columns["AnhDD"].Visible = false;
             icbtEdit.Enabled = false;
             icbtAdd.Enabled = true;
         }
@@ -151,19 +185,32 @@ namespace Laundry_shop_manager
             int index = e.RowIndex;
             if (index >= 0)
             {
-                if(dgvListNhanVien.Rows[index].Cells["id_nv"].Value.ToString() != "")
+                if(dgvListNhanVien.Rows[index].Cells["ID"].Value.ToString() != "")
                 {
-                    txbIdNhanVien.Text = dgvListNhanVien.Rows[index].Cells["id_nv"].Value.ToString();
-                    txbHoVaTen.Text = dgvListNhanVien.Rows[index].Cells["tennv"].Value.ToString();
-                    txbSDT.Text = dgvListNhanVien.Rows[index].Cells["sdt"].Value.ToString();
-                    txbDiaChi.Text = dgvListNhanVien.Rows[index].Cells["diachi"].Value.ToString();
-                    cbbChucVu.Text = dgvListNhanVien.Rows[index].Cells["chuvu"].Value.ToString();
-                    dtpkNgaySinh.Text = dgvListNhanVien.Rows[index].Cells["NgaySinh"].Value.ToString();
-                    if (dgvListNhanVien.Rows[index].Cells["anhdd"].Value.ToString() != "Chưa có hình")
+                    int id = Convert.ToInt32(dgvListNhanVien.Rows[index].Cells["ID"]?.Value.ToString());
+                    var nhanvien = NhanVienDAO.Instance.getById(id);
+
+                    txbIdNhanVien.Text = nhanvien.ID.ToString();
+                    txbHoVaTen.Text = nhanvien.TenNv;
+                    txbSDT.Text = nhanvien.SDt;
+                    txbDiaChi.Text = nhanvien.DiaChi;
+                    cbbChucVu.Text = nhanvien.ChucVu;
+                    dtpkNgaySinh.Value = nhanvien.NgaySinh.Value;
+
+                    if (nhanvien.AnhDd != null)
                     {
-                        pictureBox1.Image = new Bitmap(path + dgvListNhanVien.Rows[index].Cells["anhdd"].Value.ToString());
+                        using (var ms = new MemoryStream(nhanvien.AnhDd))
+                        {
+                            pictureBox1.Image = new Bitmap(ms);
+                        }
                     }
-                    lbPathAnhDD.Text = dgvListNhanVien.Rows[index].Cells["anhdd"].Value.ToString();
+                    else
+                    {
+                        pictureBox1.Image = null;
+                    }
+
+                    //lbPathAnhDD.Text = dgvListNhanVien.Rows[index].Cells["anhdd"].Value.ToString();
+
                     if (txbIdNhanVien.Text != "")
                     {
                         NhanVien nv = new NhanVien(Convert.ToInt32(txbIdNhanVien.Text));
@@ -184,10 +231,7 @@ namespace Laundry_shop_manager
 
                     icbtEdit.Enabled = true;
                     icbtAdd.Enabled = true;
-
                 }
-               
-
             }
         }
 
@@ -197,32 +241,37 @@ namespace Laundry_shop_manager
             openFile.Filter = "Image Files(*.jpeg: *.jpg; *.png; *.gif; *.bmp;)|*.jpeg: *.jpg; *.png; *.gif; *.bmp;";
             if (openFile.ShowDialog() == DialogResult.OK)
             {
-                lbPathAnhDD.Text = openFile.FileName.Replace(path, "");
-                pictureBox1.Image = new Bitmap(openFile.FileName);
+                lbPathAnhDD.Text = openFile.FileName.Split('\\').FirstOrDefault(x => x.Contains("."));
+                Image img = Image.FromFile(openFile.FileName);
+                byte[] arr;
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    arr = ms.ToArray();
+                }
+                pictureBox1.Image = img;
             }
-
         }
 
         #endregion
 
         private void icbtAdd_Click(object sender, EventArgs e)
         {
-            
-
             if (checkThongTin())
             {
-                if (!IsNumber(txbSDT.Text))
-                {
-                    txbSDT.Focus();
-                    MessageBox.Show("Số điện thoại phải toàn số", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
                 string userName = txbUserName.Text;
                 string passWord = txbPassWord.Text;
                 string tenNV = txbHoVaTen.Text;
-                int sdt = Convert.ToInt32(txbSDT.Text);
+                string sdt = txbSDT.Text;
                 string diaChi = txbDiaChi.Text;
-                string anhDD = lbPathAnhDD.Text;
+
+                byte[] anhDD;
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    pictureBox1.Image.Save(ms, pictureBox1.Image.RawFormat);
+                    anhDD = ms.ToArray();
+                }
+
                 DateTime ngaySinh = dtpkNgaySinh.Value;
                 string chucVu = cbbChucVu.Text;
                 NhanVien nhanVien = new NhanVien(tenNV, chucVu, sdt, diaChi, anhDD, ngaySinh);
@@ -246,28 +295,26 @@ namespace Laundry_shop_manager
                     MessageBox.Show("Thêm không thành công, xin vui lòng thử lại sau", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            else
-            {
-                MessageBox.Show("Thông tin không được trống", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void icbtEdit_Click(object sender, EventArgs e)
         {
             if (checkThongTin())
             {
-                if (!IsNumber(txbSDT.Text))
-                {
-                    txbSDT.Focus();
-                    MessageBox.Show("Số điện thoại phải toàn số", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
                 string userName = txbUserName.Text;
                 string passWord = txbPassWord.Text;
                 string tenNV = txbHoVaTen.Text;
-                int sdt = Convert.ToInt32(txbSDT.Text);
+                string sdt = txbSDT.Text;
                 string diaChi = txbDiaChi.Text;
-                string anhDD = lbPathAnhDD.Text;
+
+                byte[] anhDD;
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    ImageFormat format = pictureBox1.Image.RawFormat;
+                    pictureBox1.Image.Save(ms, format);
+                    anhDD = ms.ToArray();
+                }
+
                 DateTime ngaySinh = dtpkNgaySinh.Value;
                 string chucVu = cbbChucVu.Text;
                 int id_old_nv = Convert.ToInt32(txbIdNhanVien.Text);
@@ -294,11 +341,6 @@ namespace Laundry_shop_manager
                 }
 
             }
-            else
-            {
-                MessageBox.Show("Thông tin không được trống", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
         }
 
         private void ibtTimTaiKhoan_Click(object sender, EventArgs e)
