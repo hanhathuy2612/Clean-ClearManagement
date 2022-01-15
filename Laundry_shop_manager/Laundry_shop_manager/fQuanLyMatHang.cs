@@ -27,27 +27,61 @@ namespace Laundry_shop_manager
         void loadDataGrid()
         {
             dgvListHang.DataSource = HangHoaDAO.Instance.GetListHangHoa();
+            dgvListHang.Columns["ID_DM"].Visible = false;
         }
+
+        bool IsNumber(string text)
+        {
+            int n;
+            bool isNumeric = int.TryParse(text, out n);
+            return isNumeric;
+        }
+
         bool checkThongTin()
         {
-            if(txbIdHang.Text == "")
-            {
-                txbIdHang.Focus();
-                return false;
-            }
+            bool isEmpty = false;
+
             if (txbTenHang.Text == "")
             {
                 txbTenHang.Focus();
-                return false;
+                isEmpty = true;
             }
-            if (txbGiaTien.Text == "")
+            if (!string.IsNullOrEmpty(txbGiaTien.Text))
+            {
+                if (!IsNumber(txbGiaTien.Text))
+                {
+                    MessageBox.Show("Giá tiền không hợp lệ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txbGiaTien.Focus();
+                    return false;
+                }
+            }
+            else
             {
                 txbGiaTien.Focus();
-                return false;
+                isEmpty = true;
             }
+
             if (cbxDanhMuc.Text == "")
             {
                 cbxDanhMuc.Focus();
+                isEmpty = true;
+            }
+            else
+            {
+                var idDm = DanhMucHangDAO.Instance.getIdBytenDM(cbxDanhMuc.Text);
+                if (idDm.Rows.Count <= 0 || idDm == null)
+                {
+                    MessageBox.Show("Danh mục hàng không tồn tại", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    cbxDanhMuc.Focus();
+                    return false;
+                }
+            }
+
+
+
+            if (isEmpty)
+            {
+                MessageBox.Show("Thông tin không được trống", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             return true;
@@ -77,7 +111,7 @@ namespace Laundry_shop_manager
         private void dgvListHang_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
-            if(index >= 0)
+            if (index >= 0)
             {
                 txbIdHang.Text = dgvListHang.Rows[index].Cells["id_hh"].Value.ToString();
                 txbTenHang.Text = dgvListHang.Rows[index].Cells["tenhh"].Value.ToString();
@@ -113,12 +147,6 @@ namespace Laundry_shop_manager
                     MessageBox.Show("Thêm không thành công, vui lòng thử lại sau", "Thông báo", MessageBoxButtons.OK);
                 }
             }
-            else
-            {
-                MessageBox.Show("Thông tin không được trống", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            
         }
 
         private void ibtTim_Click(object sender, EventArgs e)
@@ -150,7 +178,7 @@ namespace Laundry_shop_manager
                 int donGia = Convert.ToInt32(txbGiaTien.Text);
                 string tendm = cbxDanhMuc.Text;
                 int id_dm = Convert.ToInt32(DanhMucHangDAO.Instance.getIdBytenDM(tendm).Rows[0].ItemArray[0].ToString());
-                HangHoa hh = new HangHoa(id_hh,tenHh, donGia, id_dm);
+                HangHoa hh = new HangHoa(id_hh, tenHh, donGia, id_dm);
                 if (HangHoaDAO.Instance.updateHangHoa(hh) > 0)
                 {
                     loadDataGrid();

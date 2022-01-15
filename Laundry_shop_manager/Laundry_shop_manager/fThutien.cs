@@ -26,11 +26,12 @@ namespace Laundry_shop_manager
             LoadDataGrid();
         }
 
-        void LamMoi()
+        public void LamMoi()
         {
             txbSHD.Text = "";
             txbTenKhach.Text = "";
             ibtHuyDon.Enabled = false;
+            LoadDataGrid();
         }
         void LoadDataGrid()
         {

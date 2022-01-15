@@ -17,7 +17,7 @@ namespace Laundry_shop_manager
         {
             InitializeComponent();
         }
-        void LoadHome()
+        public void LoadHome()
         {
             txbTongNhanVien.Text = NhanVienDAO.Instance.GetTongNhanVien().ToString();
             txbTongDonHang.Text = HoaDonDAO.Instance.GetTongHoaDon().ToString();

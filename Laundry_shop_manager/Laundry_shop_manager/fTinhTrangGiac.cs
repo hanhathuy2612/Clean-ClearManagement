@@ -25,15 +25,16 @@ namespace Laundry_shop_manager
             LoadDataGrid();
         }
         #region Method
-        void LoadDataGrid()
+        public void LoadDataGrid()
         {
             dgvListHoaDon.DataSource = HoaDonDAO.Instance.getListHoaDonTinhTrangGiac();
         }
-        void refreshThongTin()
+        public void refreshThongTin()
         {
             txbSoHoaDon.Text = "";
             cbxTrangThaiGiac.Text = "";
             txbSearchSHD.Text = "";
+            LoadDataGrid();
         }
         bool checkThongTin()
         {

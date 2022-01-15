@@ -19,10 +19,10 @@ namespace Laundry_shop_manager
         {
             InitializeComponent();
         }
-        
-        private void reportViewer1_Load(object sender, EventArgs e)
+
+        public void LoadData()
         {
-            DataTable data =  HoaDonDAO.Instance.getListHoaDonBaoCao();
+            DataTable data = HoaDonDAO.Instance.getListHoaDonBaoCao();
             DataTable tongDT = HoaDonDAO.Instance.TongDoanhThu();
             ReportDataSource rds = new ReportDataSource("ListHoaDon", data);
             ReportDataSource rds2 = new ReportDataSource("TongDoanhThu", tongDT);
@@ -30,6 +30,11 @@ namespace Laundry_shop_manager
             this.reportViewer1.LocalReport.DataSources.Add(rds);
             this.reportViewer1.LocalReport.DataSources.Add(rds2);
             this.reportViewer1.RefreshReport();
+        }
+        
+        private void reportViewer1_Load(object sender, EventArgs e)
+        {
+            LoadData();
         }
     }
 }

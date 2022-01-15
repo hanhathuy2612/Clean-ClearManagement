@@ -33,7 +33,8 @@ namespace Laundry_shop_manager.DAO
 
         public DataTable GetListHangHoa()
         {
-            return DataProvider.Instance.ExecuteQuery("SELECT * FROM HANGHOA");
+            string query = "select hh.ID_HH, hh.TenHH, hh.DonGia, hh.ID_DM, dmh.TenDM from HANGHOA hh, DANHMUCHANG dmh where hh.ID_DM = dmh.ID_DM";
+            return DataProvider.Instance.ExecuteQuery(query);
         }
         
         public DataTable timHangHoaTheoTen(string ten)

@@ -96,9 +96,8 @@ namespace Laundry_shop_manager
         private void ibt_Click(object sender, EventArgs e)
         {
             fTrangchuUsercontrol1.BringToFront();
+            fTrangchuUsercontrol1.LoadHome();
         }
-
-        
 
         private void iconButton2_Click(object sender, EventArgs e)
         {
@@ -108,6 +107,7 @@ namespace Laundry_shop_manager
         private void iconButton3_Click(object sender, EventArgs e)
         {
             fQuanlydonhang1.BringToFront();
+            fQuanlydonhang1.refreshThongTin();
         }
 
         private void ibtTinhtrangdonhang_Click(object sender, EventArgs e)
@@ -118,6 +118,7 @@ namespace Laundry_shop_manager
         private void icbThutien_Click(object sender, EventArgs e)
         {
             fThutien1.BringToFront();
+            fThutien1.LamMoi();
         }
 
         private void ibtQuanlytaikhoan_Click(object sender, EventArgs e)
@@ -129,6 +130,7 @@ namespace Laundry_shop_manager
         private void ibtThongke_Click(object sender, EventArgs e)
         {
             fThongkeUsercontrol1.BringToFront();
+            fThongkeUsercontrol1.LoadData();
         }
 
 
