@@ -392,7 +392,7 @@ namespace Laundry_shop_manager
             this.fQuanLyNhanVien1.BackColor = System.Drawing.Color.LemonChiffon;
             this.fQuanLyNhanVien1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fQuanLyNhanVien1.Location = new System.Drawing.Point(198, 63);
-            this.fQuanLyNhanVien1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.fQuanLyNhanVien1.Margin = new System.Windows.Forms.Padding(4);
             this.fQuanLyNhanVien1.Name = "fQuanLyNhanVien1";
             this.fQuanLyNhanVien1.Size = new System.Drawing.Size(1185, 547);
             this.fQuanLyNhanVien1.TabIndex = 6;
@@ -443,6 +443,7 @@ namespace Laundry_shop_manager
             this.Controls.Add(this.pnTitle);
             this.Controls.Add(this.pnTuychon);
             this.Name = "fHome";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Tag = "81";
             this.Text = "Quản lý shop giặt ủi";
             this.pnTuychon.ResumeLayout(false);

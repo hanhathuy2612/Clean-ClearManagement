@@ -18,6 +18,7 @@ namespace Laundry_shop_manager
     public partial class fQuanLyNhanVien : UserControl
     {
         string path = Path.GetFullPath("image/");
+        byte[] byteArray;
         public fQuanLyNhanVien()
         {
             InitializeComponent();
@@ -196,9 +197,10 @@ namespace Laundry_shop_manager
                     txbDiaChi.Text = nhanvien.DiaChi;
                     cbbChucVu.Text = nhanvien.ChucVu;
                     dtpkNgaySinh.Value = nhanvien.NgaySinh.Value;
-
+                    
                     if (nhanvien.AnhDd != null)
                     {
+                        byteArray = nhanvien.AnhDd;
                         using (var ms = new MemoryStream(nhanvien.AnhDd))
                         {
                             pictureBox1.Image = new Bitmap(ms);
@@ -243,11 +245,11 @@ namespace Laundry_shop_manager
             {
                 lbPathAnhDD.Text = openFile.FileName.Split('\\').FirstOrDefault(x => x.Contains("."));
                 Image img = Image.FromFile(openFile.FileName);
-                byte[] arr;
+
                 using (MemoryStream ms = new MemoryStream())
                 {
                     img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                    arr = ms.ToArray();
+                    byteArray = ms.ToArray();
                 }
                 pictureBox1.Image = img;
             }
@@ -265,12 +267,12 @@ namespace Laundry_shop_manager
                 string sdt = txbSDT.Text;
                 string diaChi = txbDiaChi.Text;
 
-                byte[] anhDD;
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    pictureBox1.Image.Save(ms, pictureBox1.Image.RawFormat);
-                    anhDD = ms.ToArray();
-                }
+                byte[] anhDD = byteArray;
+                //using (MemoryStream ms = new MemoryStream())
+                //{
+                //    pictureBox1.Image.Save(ms, pictureBox1.Image.RawFormat);
+                //    anhDD = ms.ToArray();
+                //}
 
                 DateTime ngaySinh = dtpkNgaySinh.Value;
                 string chucVu = cbbChucVu.Text;
@@ -307,13 +309,14 @@ namespace Laundry_shop_manager
                 string sdt = txbSDT.Text;
                 string diaChi = txbDiaChi.Text;
 
-                byte[] anhDD;
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    ImageFormat format = pictureBox1.Image.RawFormat;
-                    pictureBox1.Image.Save(ms, format);
-                    anhDD = ms.ToArray();
-                }
+                byte[] anhDD = byteArray;
+
+                //using (MemoryStream ms = new MemoryStream())
+                //{
+                //    ImageFormat format = pictureBox1.Image.RawFormat;
+                //    pictureBox1.Image.Save(ms, format);
+                //    anhDD = ms.ToArray();
+                //}
 
                 DateTime ngaySinh = dtpkNgaySinh.Value;
                 string chucVu = cbbChucVu.Text;
