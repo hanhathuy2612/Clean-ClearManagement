@@ -292,4 +292,3 @@ D:\CÁC MÔN TRÊN TRƯỜNG\Kỳ 7\Phân Tính thiết kế hướng đối tư
 D:\CÁC MÔN TRÊN TRƯỜNG\Kỳ 7\Phân Tính thiết kế hướng đối tượng\Clean-ClearManagement\Laundry_shop_manager\Laundry_shop_manager\obj\Debug\Laundry_shop_manager.exe
 D:\CÁC MÔN TRÊN TRƯỜNG\Kỳ 7\Phân Tính thiết kế hướng đối tượng\Clean-ClearManagement\Laundry_shop_manager\Laundry_shop_manager\obj\Debug\Laundry_shop_manager.pdb
 D:\CÁC MÔN TRÊN TRƯỜNG\Kỳ 7\Phân Tính thiết kế hướng đối tượng\Clean-ClearManagement\Laundry_shop_manager\Laundry_shop_manager\obj\Debug\Laundry_shop_manager.csproj.CopyComplete
-D:\CÁC MÔN TRÊN TRƯỜNG\Kỳ 7\Phân Tính thiết kế hướng đối tượng\Clean-ClearManagement\Laundry_shop_manager\Laundry_shop_manager\obj\Debug\Laundry_shop_manager.csproj.AssemblyReference.cache
